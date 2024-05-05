@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Netflix</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <img src="Netflix_Logo.png" alt="Netflix Logo" class="logo">
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">TV Shows</a></li>
+                <li><a href="#">Movies</a></li>
+                <li><a href="#">My List</a></li>
+            </ul>
+        </nav>
+        <button class="login-btn">Sign In</button>
+    </header>
+
+    <main>
+        <form class="search-form">
+            <input type="text" placeholder="Tìm kiếm phim..." id="search-input">
+            <button type="submit">Tìm kiếm</button>
+        </form>
+        <h1>Danh sách phim đang thịnh hành</h1>
+            <section class="movie-list">
+                <div class="movie">
+                    <img src="movie1.jpg" alt="Movie 1">
+                    <h3>Quật mộ trùng ma</h3>
+                    <p>Phim kinh dị</p>
+                    <button class="trailer-btn" data-video="video1.mp4">Xem Trailer</button>
+                </div>
+                <div class="movie">
+                    <img src="movie2.jpg" alt="Movie 2">
+                    <h3>Đấu trường âm nhạc 2</h3>
+                    <p>Phim gia đình</p>
+                    <button class="trailer-btn" data-video="video2.mp4">Xem Trailer</button>
+                </div>
+                <!-- Add more movies here -->
+                <div class="movie">
+                    <img src="movie3.jpg" alt="Movie 3">
+                    <h3>Money heist</h3>
+                    <p>Phim hành động, giật gân</p>
+                    <button class="trailer-btn" data-video="video3.mp4">Xem Trailer</button>
+                </div>
+                <div class="movie">
+                    <img src="movie4.jpg" alt="Movie 4">
+                    <h3>Behind her eyes</h3>
+                    <p>Phim tình cảm, lãng mạn</p>
+                    <button class="trailer-btn" data-video="video4.mp4">Xem Trailer</button>
+                </div>
+                <div class="movie">
+                    <img src="movie5.jpg" alt="Movie 5">
+                    <h3>Blood red sky</h3>
+                    <p>Phim kinh dị</p>
+                    <button class="trailer-btn" data-video="video5.mp4">Xem Trailer</button>
+                </div>
+            </section>
+    </main>
+
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <video controls id="video-player">
+                <source src="" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <button class="close-btn" id="close-btn">&times;</button>
+        </div>
+    </div>
+    <footer>
+        <div class="footer-links">
+            <a href="#">Questions? Contact us.</a>
+            <a href="#">FAQ</a>
+            <a href="#">Help Center</a>
+            <a href="#">Account</a>
+            <a href="#">Media Center</a>
+            <a href="#">Investor Relations</a>
+            <a href="#">Jobs</a>
+            <a href="#">Ways to Watch</a>
+            <a href="#">Terms of Use</a>
+            <a href="#">Privacy</a>
+            <a href="#">Cookie Preferences</a>
+            <a href="#">Corporate Information</a>
+            <a href="#">Contact Us</a>
+            <a href="#">Speed Test</a>
+            <a href="#">Legal Notices</a>
+            <a href="#">Only on Netflix</a>
+        </div>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>
