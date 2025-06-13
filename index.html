@@ -1,95 +1,609 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Netflix</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Thiệp Mời Đặc Biệt - Gửi Thùy Linh</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Cormorant+Garamond:wght@300;400;600&family=Great+Vibes&family=Playfair+Display:wght@400;700&family=Cinzel:wght@400;600&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%);
+            background-size: 400% 400%;
+            animation: gradientMove 15s ease-in-out infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Cormorant Garamond', serif;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        @keyframes gradientMove {
+            0%, 100% { background-position: 0% 50%; }
+            25% { background-position: 100% 50%; }
+            50% { background-position: 50% 100%; }
+            75% { background-position: 50% 0%; }
+        }
+        
+        .floating-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) scale(0); opacity: 0; }
+            50% { transform: translateY(-50px) scale(1); opacity: 1; }
+        }
+        
+        .invitation-container {
+            position: relative;
+            width: 500px;
+            height: 700px;
+            perspective: 1500px;
+            cursor: pointer;
+            z-index: 10;
+            filter: drop-shadow(0 20px 40px rgba(0,0,0,0.3));
+        }
+        
+        .invitation-book {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 2s ease-in-out;
+            animation: bookFloat 6s ease-in-out infinite;
+        }
+        
+        @keyframes bookFloat {
+            0%, 100% { transform: translateY(0px) rotateX(0deg); }
+            50% { transform: translateY(-10px) rotateX(2deg); }
+        }
+        
+        .invitation-book.opened {
+            transform: rotateY(-30deg);
+        }
+        
+        .book-cover, .book-page {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            border-radius: 15px;
+            backface-visibility: hidden;
+        }
+        
+        .book-cover {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 25%, #fecfef 75%, #ff9a9e 100%);
+            background-size: 200% 200%;
+            animation: coverShine 8s ease-in-out infinite;
+            z-index: 2;
+            transition: transform 2s ease-in-out;
+            transform-origin: left center;
+            box-shadow: 
+                0 0 30px rgba(255, 154, 158, 0.5),
+                inset 0 0 30px rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        @keyframes coverShine {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .invitation-book.opened .book-cover {
+            transform: rotateY(-180deg);
+        }
+        
+        .book-page {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1;
+            padding: 40px;
+            overflow-y: auto;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        
+        .cover-content {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 50px;
+            color: white;
+            position: relative;
+        }
+        
+        .cover-ornament {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: rotate 20s linear infinite;
+        }
+        
+        .cover-ornament::before {
+            content: '';
+            position: absolute;
+            width: 90px;
+            height: 90px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: rotate 15s linear infinite reverse;
+        }
+        
+        @keyframes rotate {
+            0% { transform: translateX(-50%) rotate(0deg); }
+            100% { transform: translateX(-50%) rotate(360deg); }
+        }
+        
+        .cover-title {
+            font-family: 'Cinzel', serif;
+            font-size: 3.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px rgba(255,255,255,0.8), 2px 2px 4px rgba(0,0,0,0.3);
+            animation: titleGlow 3s ease-in-out infinite alternate;
+            letter-spacing: 2px;
+            z-index: 10;
+            position: relative;
+        }
+        
+        @keyframes titleGlow {
+            0% { text-shadow: 0 0 20px rgba(255,255,255,0.8), 2px 2px 4px rgba(0,0,0,0.3); }
+            100% { text-shadow: 0 0 30px rgba(255,255,255,1), 0 0 40px rgba(255,255,255,0.8), 2px 2px 4px rgba(0,0,0,0.3); }
+        }
+        
+        .cover-subtitle {
+            font-family: 'Great Vibes', cursive;
+            font-size: 1.8rem;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+        
+        .click-hint {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255,255,255,0.2);
+            padding: 15px 25px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-family: 'Playfair Display', serif;
+            animation: pulse 2s ease-in-out infinite;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: translateX(-50%) scale(1); }
+            50% { transform: translateX(-50%) scale(1.05); }
+        }
+        
+        .page-content {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .invitation-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .header-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2.5rem;
+            font-weight: 600;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            background-size: 200% 200%;
+            animation: textShine 3s ease-in-out infinite;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+        
+        @keyframes textShine {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .header-decoration {
+            width: 80px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #ff6b6b, transparent);
+            margin: 0 auto;
+        }
+        
+        .names-section {
+            text-align: center;
+            margin: 25px 0;
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(255,107,107,0.1), rgba(78,205,196,0.1));
+            border-radius: 15px;
+            border: 1px solid rgba(255,107,107,0.2);
+            backdrop-filter: blur(5px);
+        }
+        
+        .from-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        
+        .invitation-text {
+            font-family: 'Great Vibes', cursive;
+            font-size: 1.3rem;
+            color: #7f8c8d;
+            margin: 10px 0;
+            font-style: italic;
+        }
+        
+        .to-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #e74c3c;
+            animation: nameHighlight 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes nameHighlight {
+            0% { color: #e74c3c; transform: scale(1); }
+            100% { color: #ff6b9d; transform: scale(1.02); }
+        }
+        
+        .event-details {
+            background: linear-gradient(135deg, rgba(69,183,209,0.1), rgba(150,206,180,0.1));
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            text-align: center;
+            border: 1px solid rgba(69,183,209,0.2);
+        }
+        
+        .time-date {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .time-icon {
+            font-size: 1.2rem;
+        }
+        
+        .gallery-section {
+            margin-top: 20px;
+        }
+        
+        .gallery-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.8rem;
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+        
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .gallery-image {
+            width: 100%;
+            height: 80px;
+            background: linear-gradient(45deg, #ff9a9e, #fecfef);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.3);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .gallery-image:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(5px);
+        }
+        
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 350px;
+            animation: modalShow 0.3s ease;
+        }
+        
+        @keyframes modalShow {
+            from { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+            to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        }
+        
+        .close {
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            font-size: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #aaa;
+            transition: color 0.3s ease;
+        }
+        
+        .close:hover {
+            color: #000;
+        }
+        
+        .music-controls {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 500;
+        }
+        
+        .music-btn {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .music-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+        }
+        
+        .footer-message {
+            text-align: center;
+            font-family: 'Great Vibes', cursive;
+            font-size: 1.3rem;
+            color: #7f8c8d;
+            margin-top: 15px;
+            font-style: italic;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .invitation-container {
+                width: 90vw;
+                height: 80vh;
+                max-width: 350px;
+                max-height: 500px;
+            }
+            .cover-title {
+                font-size: 2.5rem;
+            }
+            .header-title {
+                font-size: 2rem;
+            }
+            .from-name {
+                font-size: 1.6rem;
+            }
+            .to-name {
+                font-size: 1.4rem;
+            }
+            .gallery-image {
+                height: 60px;
+                font-size: 1.5rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <img src="Netflix_Logo.png" alt="Netflix Logo" class="logo">
-        <nav>
-            <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">TV Shows</a></li>
-                <li><a href="#">Movies</a></li>
-                <li><a href="#">My List</a></li>
-            </ul>
-        </nav>
-        <button class="login-btn">Sign In</button>
-    </header>
-
-    <main>
-        <form class="search-form">
-            <input type="text" placeholder="Tìm kiếm phim..." id="search-input">
-            <button type="submit">Tìm kiếm</button>
-        </form>
-        <h1>Danh sách phim đang thịnh hành</h1>
-            <section class="movie-list">
-                <div class="movie">
-                    <img src="movie1.jpg" alt="Movie 1">
-                    <h3>Quật mộ trùng ma</h3>
-                    <p>Phim kinh dị</p>
-                    <button class="trailer-btn" data-video="video1.mp4">Xem Trailer</button>
+    <div class="floating-particles" id="particles"></div>
+    
+    <div class="invitation-container" id="invitationContainer">
+        <div class="invitation-book" id="invitationBook">
+            <!-- Book Cover -->
+            <div class="book-cover">
+                <div class="cover-content">
+                    <div class="cover-ornament"></div>
+                    <div class="cover-title">Thiệp Mời</div>
+                    <div class="cover-subtitle">Đặc Biệt Dành Riêng Cho Bạn</div>
+                    <div class="click-hint">✨ Chạm để mở thiệp ✨</div>
                 </div>
-                <div class="movie">
-                    <img src="movie2.jpg" alt="Movie 2">
-                    <h3>Đấu trường âm nhạc 2</h3>
-                    <p>Phim gia đình</p>
-                    <button class="trailer-btn" data-video="video2.mp4">Xem Trailer</button>
+            </div>
+            
+            <!-- Book Page -->
+            <div class="book-page">
+                <div class="page-content">
+                    <div class="invitation-header">
+                        <div class="header-title">Lời Mời Trân Trọng</div>
+                        <div class="header-decoration"></div>
+                    </div>
+                    
+                    <div class="names-section">
+                        <div class="from-name">Lê Trung Hiếu</div>
+                        <div class="invitation-text">trân trọng kính mời</div>
+                        <div class="to-name">Nguyễn Thị Thùy Linh</div>
+                    </div>
+                    
+                    <div class="event-details">
+                        <div class="time-date">
+                            <span class="time-icon">📅</span>
+                            <span>Ngày 14 tháng 6 năm 2025</span>
+                        </div>
+                        <div class="time-date">
+                            <span class="time-icon">🕘</span>
+                            <span>Thời gian: 19:00 - 22:00</span>
+                        </div>
+                        <div class="time-date">
+                            <span class="time-icon">📍</span>
+                            <span>Địa điểm: Sẽ thông báo sau</span>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-section">
+                        <div class="gallery-title">Những Khoảnh Khắc Đặc Biệt</div>
+                        <div class="image-gallery">
+                            <div class="gallery-image" onclick="openModal('🌸', 'Hoa anh đào - Vẻ đẹp và khởi đầu mới', './1.jpg' )">🌸</div>
+                            <div class="gallery-image" onclick="openModal('🎂', 'Bánh sinh nhật - Ngày đặc biệt', './2.jpg')">🎂</div>
+                            <div class="gallery-image" onclick="openModal('🎊', 'Tiệc tùng - Niềm vui chia sẻ', './3.jpg')">🎊</div>
+                            <div class="gallery-image" onclick="openModal('🌟', 'Khoảnh khắc rạng rỡ', './4.jpg')">🌟</div>
+                            <div class="gallery-image" onclick="openModal('🎭', 'Nghệ thuật và văn hóa', './5.jpg')">🎭</div>
+                            <div class="gallery-image" onclick="openModal('🥂', 'Nâng ly chúc mừng', './6.jpg')">🥂</div>
+                        </div>
+                    </div>
+                    
+                    <div class="footer-message">
+                        Rất mong được đón tiếp bạn! 💖
+                    </div>
                 </div>
-                <!-- Add more movies here -->
-                <div class="movie">
-                    <img src="movie3.jpg" alt="Movie 3">
-                    <h3>Money heist</h3>
-                    <p>Phim hành động, giật gân</p>
-                    <button class="trailer-btn" data-video="video3.mp4">Xem Trailer</button>
-                </div>
-                <div class="movie">
-                    <img src="movie4.jpg" alt="Movie 4">
-                    <h3>Behind her eyes</h3>
-                    <p>Phim tình cảm, lãng mạn</p>
-                    <button class="trailer-btn" data-video="video4.mp4">Xem Trailer</button>
-                </div>
-                <div class="movie">
-                    <img src="movie5.jpg" alt="Movie 5">
-                    <h3>Blood red sky</h3>
-                    <p>Phim kinh dị</p>
-                    <button class="trailer-btn" data-video="video5.mp4">Xem Trailer</button>
-                </div>
-            </section>
-    </main>
-
-    <div class="modal" id="modal">
-        <div class="modal-content">
-            <video controls id="video-player">
-                <source src="" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-            <button class="close-btn" id="close-btn">&times;</button>
+            </div>
         </div>
     </div>
-    <footer>
-        <div class="footer-links">
-            <a href="#">Questions? Contact us.</a>
-            <a href="#">FAQ</a>
-            <a href="#">Help Center</a>
-            <a href="#">Account</a>
-            <a href="#">Media Center</a>
-            <a href="#">Investor Relations</a>
-            <a href="#">Jobs</a>
-            <a href="#">Ways to Watch</a>
-            <a href="#">Terms of Use</a>
-            <a href="#">Privacy</a>
-            <a href="#">Cookie Preferences</a>
-            <a href="#">Corporate Information</a>
-            <a href="#">Contact Us</a>
-            <a href="#">Speed Test</a>
-            <a href="#">Legal Notices</a>
-            <a href="#">Only on Netflix</a>
+
+    <!-- Modal -->
+    <div id="imageModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div id="modalEmoji" style="font-size: 4rem; margin-bottom: 15px;"></div>
+            <div id="modalText" style="font-size: 1.1rem; font-family: 'Cormorant Garamond', serif;"></div>
+            <img id="modalImage" style="max-width: 100%; display: none;" />
         </div>
-    </footer>
-    <script src="script.js"></script>
+    </div>
+
+    <!-- Music Player -->
+    <div class="music-controls">
+        <button class="music-btn" onclick="toggleMusic()" id="musicBtn">🎵</button>
+    </div>
+
+    <script>
+        // Tạo particles
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.width = Math.random() * 6 + 2 + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = Math.random() * 4 + 4 + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        // Mở/đóng thiệp
+        const invitationContainer = document.getElementById('invitationContainer');
+        const invitationBook = document.getElementById('invitationBook');
+
+        invitationContainer.addEventListener('click', () => {
+            invitationBook.classList.toggle('opened');
+        });
+
+        // Modal functions
+        function openModal(emoji, text, imgUrl) {
+            const modal = document.getElementById('imageModal');
+            const modalEmoji = document.getElementById('modalEmoji');
+            const modalText = document.getElementById('modalText');
+            const modalImage = document.getElementById('modalImage');
+            modalEmoji.textContent = emoji;
+            modalText.textContent = text;
+            modalImage.src = imgUrl;
+            modalImage.style.display = imgUrl ? 'block' : 'none';
+            modal.style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('imageModal').style.display = 'none';
+        }
+
+        // Đóng modal khi click bên ngoài
+        window.onclick = function(event) {
+            const modal = document.getElementById('imageModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        // Music
+        let isPlaying = false;
+        function toggleMusic() {
+            const btn = document.getElementById('musicBtn');
+            if (!isPlaying) {
+                btn.textContent = '⏸️';
+            } else {
+                btn.textContent = '🎵';
+            }
+            isPlaying = !isPlaying;
+        }
+
+        // Khởi tạo
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+        });
+    </script>
 </body>
 </html>
